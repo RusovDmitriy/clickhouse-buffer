@@ -16,9 +16,7 @@ Clone the repo and install the dependencies.
 ```bash
 git clone https://github.com/RusovDmitriy/clickhouse-buffer
 cd clickhouse-buffer
-```
 
-```bash
 npm install
 ```
 
@@ -27,7 +25,6 @@ npm install
 npm run start
 
 # Also you can start processes separately
-
 # Start api (http single)
 npm run http
 # Start loader
@@ -78,6 +75,10 @@ docker run -it --rm -p 3000:3000 \
 
 All you need to do is send a post request with the data to be inserted in a simple JSON format:
 
+```bahs
+curl -X POST -d '<json>' http://localhost:3000
+```
+
 ```json
 {
   "table": "tracker.hits",
@@ -94,10 +95,6 @@ All you need to do is send a post request with the data to be inserted in a simp
     }
   ]
 }
-```
-
-```bahs
-curl -X POST -d '<json>' http://localhost:3000
 ```
 
 For this example loader create insert query like:
