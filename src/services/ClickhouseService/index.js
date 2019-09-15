@@ -1,11 +1,19 @@
 const http = require('http')
-module.exports = ({ errors: { ClickhouseInsertError } }) => {
+module.exports = cradle => {
+  const {
+    errors: { ClickhouseInsertError }
+  } = cradle
+
+  const servers = (process.env.CLICKHOUSE_SERVERS || '127.0.0.1:8123').split(',')
+
   return {
     insert({ table, keys }) {
       const query = `INSERT INTO ${table} (${keys.join(',')}) FORMAT TabSeparated`
+
+      const [host, port] = servers[Math.floor(Math.random() * servers.length)].split(':')
       const options = {
-        host: process.env.CLICKHOUSE_HOST || '127.0.0.1',
-        port: process.env.CLICKHOUSE_PORT || '8123',
+        host,
+        port,
         path: `/?query=${encodeURIComponent(query)}`,
         method: 'POST',
         headers: {
@@ -23,12 +31,14 @@ module.exports = ({ errors: { ClickhouseInsertError } }) => {
         })
 
         req.once('response', res => {
+          let body = ''
           res.on('data', function(chunk) {
-            console.log('Response: ' + chunk)
+            body += chunk.toString()
           })
 
           res.on('end', () => {
-            resolve()
+            if (body) reject(new ClickhouseInsertError(body))
+            else resolve()
           })
 
           res.on('error', err => {

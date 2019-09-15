@@ -14,6 +14,7 @@ describe('services => BufferService', () => {
       rpush: jest.fn(),
       lrange: jest.fn(),
       ltrim: jest.fn(),
+      del: jest.fn(),
       multi: jest.fn(() => multi)
     }
 
@@ -98,5 +99,11 @@ describe('services => BufferService', () => {
     const { buffer, redis } = createBuffer()
     await buffer.remove({ table: 'test', length: 10 })
     expect(redis.ltrim.mock.calls.length).toBe(1)
+  })
+
+  it('should clear records', async () => {
+    const { buffer, redis } = createBuffer()
+    await buffer.clear({ table: 'test' })
+    expect(redis.del.mock.calls.length).toBe(1)
   })
 })

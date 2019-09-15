@@ -16,7 +16,7 @@ module.exports.info = (...args) => {
 }
 
 module.exports.error = (...args) => {
-  console.error.apply(console, [dateFormat(), process.pid, '[error]', ...args])
+  if (process.env.LOG_OFF !== '1') console.error.apply(console, [dateFormat(), process.pid, '[error]', ...args])
 }
 
 module.exports.debug = (...args) => {

@@ -7,7 +7,9 @@
     "start": "node ./bin/all.js",
     "http": "node ./bin/http.js",
     "loader": "node ./bin/loader.js",
-    "test": "jest --coverage --no-cache"
+    "test": "npm run test:unit && npm run test:integration",
+    "test:unit": "jest --coverage --no-cache ./test/unit/**/*.spec.js",
+    "test:integration": "jest --no-cache ./test/integration/**/*.spec.js"
   },
   "author": "rusov.d.s@gmail.com",
   "license": "ISC",

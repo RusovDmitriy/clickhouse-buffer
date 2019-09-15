@@ -31,7 +31,7 @@ module.exports = cradle => {
           await bufferService.remove({ table, length: inserts })
         } catch (err) {
           inserts = 0
-          logger.error(err.message, JSON.stringify(err))
+          throw err
         }
       }
     }
