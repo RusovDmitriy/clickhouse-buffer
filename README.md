@@ -64,7 +64,7 @@ Step 3: Run the Docker container locally:
 
 ```bash
 docker run -it --rm -p 3000:3000 \
-  -e TABLES=default.test
+  -e TABLES=default.test \
   -e CLICKHOUSE_SERVERS=127.0.0.1:8123 \
   -e REDIS_HOST=127.0.0.1 \
   -e REDIS_PORT=6379 \
