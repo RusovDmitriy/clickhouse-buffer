@@ -19,7 +19,7 @@ class Loader extends EventEmitter {
         try {
           const { inserts } = await this.handler({
             table: this.table,
-            maxlength: 10000
+            maxlength: 50000
           })
 
           if (inserts) this.logger.info(`Insert records: ${inserts}`)

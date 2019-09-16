@@ -1,20 +1,30 @@
 const http = require('http')
+const querystring = require('querystring')
+
 module.exports = cradle => {
   const {
     errors: { ClickhouseInsertError }
   } = cradle
 
-  const servers = (process.env.CLICKHOUSE_SERVERS || '127.0.0.1:8123').split(',')
+  const host = process.env.CLICKHOUSE_HOST || '127.0.0.1'
+  const port = process.env.CLICKHOUSE_PORT || 8123
+  const user = process.env.CLICKHOUSE_USER || 'default'
+  const password = process.env.CLICKHOUSE_PASSWORD || ''
 
   return {
     insert({ table, keys }) {
       const query = `INSERT INTO ${table} (${keys.join(',')}) FORMAT TabSeparated`
 
-      const [host, port] = servers[Math.floor(Math.random() * servers.length)].split(':')
+      const qs = querystring.stringify({
+        query,
+        user,
+        password
+      })
+
       const options = {
         host,
         port,
-        path: `/?query=${encodeURIComponent(query)}`,
+        path: `/?${qs}`,
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'

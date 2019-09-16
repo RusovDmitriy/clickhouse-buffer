@@ -35,13 +35,16 @@ npm run loader
 
 For settings buffer use environment variables:
 
-| Name               | Default        | Description                                                                                                               |
-| ------------------ | -------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| HTTP_PORT          | 3000           | Port for API (http server)                                                                                                |
-| REDIS_HOST         | 127.0.0.1      | Host for redis instance                                                                                                   |
-| REDIS_PORT         | 6379           | Port for redis instance                                                                                                   |
-| CLICKHOUSE_SERVERS | 127.0.0.1:8123 | List of clickhouse servers HOST:PORT, separated by comma                                                                  |
-| TABLES             | default.test   | List of clickhouse tables name DB_NAME.TABLE_NAME, separated by comma. A separate thread for each table will be launched. |
+| Name                | Default      | Description                                                                                                               |
+| ------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| HTTP_PORT           | 3000         | Port for API (http server)                                                                                                |
+| REDIS_HOST          | 127.0.0.1    | Host for redis instance                                                                                                   |
+| REDIS_PORT          | 6379         | Port for redis instance                                                                                                   |
+| CLICKHOUSE_HOST     | 127.0.0.1    | Host for clickhouse instance                                                                                              |
+| CLICKHOUSE_PORT     | 8123         | Port for clickhouse instance                                                                                              |
+| CLICKHOUSE_USER     | default      | User for clickhouse instance                                                                                              |
+| CLICKHOUSE_PASSWORD |              | Password for clickhouse instance                                                                                          |
+| TABLES              | default.test | List of clickhouse tables name DB_NAME.TABLE_NAME, separated by comma. A separate thread for each table will be launched. |
 
 ## Use Docker
 
@@ -65,7 +68,10 @@ Step 3: Run the Docker container locally:
 ```bash
 docker run -it --rm -p 3000:3000 \
   -e TABLES=default.test \
-  -e CLICKHOUSE_SERVERS=127.0.0.1:8123 \
+  -e CLICKHOUSE_HOST=127.0.0.1 \
+  -e CLICKHOUSE_PORT=8123 \
+  -e CLICKHOUSE_USER=default \
+  -e CLICKHOUSE_PASSWORD= \
   -e REDIS_HOST=127.0.0.1 \
   -e REDIS_PORT=6379 \
   clickhouse-buffer

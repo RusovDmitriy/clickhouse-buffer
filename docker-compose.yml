@@ -1,0 +1,36 @@
+version: '3.1'
+
+services:
+  redis:
+    container_name: redis
+    image: redis:4
+    ports:
+      - '6379:6379'
+    volumes:
+      - ./data/docker/redis/data:/data
+
+  clickhouse:
+    container_name: clickhouse
+    image: yandex/clickhouse-server:latest
+    restart: always
+    ports:
+      - 9000:9000
+      - 8123:8123
+    volumes:
+      - ./data/seeds/clickhouse/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./data/docker/clickhouse/data:/opt/clickhouse/data
+      - ./data/docker/clickhouse/lib:/var/lib/clickhouse
+  app:
+    container_name: clickhouse_buffer
+    build: .
+    command: npm run start
+    ports:
+      - '3000:3000'
+    depends_on:
+      - redis
+      - clickhouse
+    environment:
+      REDIS_HOST: redis
+      CLICKHOUSE_HOST: clickhouse
+      CLICKHOUSE_PORT: 8123
+      TABLES: chbuffer.test

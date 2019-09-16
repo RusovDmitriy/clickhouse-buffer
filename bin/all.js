@@ -24,12 +24,16 @@ if (cluster.isMaster) {
     })
   }
 } else {
-  const Api = require(__dirname + '/../src/interfaces/http')
-  const api = new Api()
+  const HttpApi = require(__dirname + '/../src/interfaces/http')
+  const httpApi = new HttpApi()
+
+  const TcpApi = require(__dirname + '/../src/interfaces/tcp')
+  const tcpApi = new TcpApi()
 
   process.on('SIGINT', async () => {
     console.info('SIGINT signal received.')
-    await api.close()
+    await httpApi.close()
+    await tcpApi.close()
     process.exit(0)
   })
 }

@@ -1,0 +1,18 @@
+{
+  "apps": [
+    {
+      "name": "loader",
+      "script": "./bin/loader.js",
+      "watch": false,
+      "kill_timeout": 120000,
+      "env": {
+        "PM2_GRACEFUL_TIMEOUT": 120000,
+        "NODE_ENV": "development"
+      },
+      "env_production": {
+        "PM2_GRACEFUL_TIMEOUT": 120000,
+        "NODE_ENV": "production"
+      }
+    }
+  ]
+}

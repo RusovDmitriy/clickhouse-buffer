@@ -6,13 +6,13 @@ module.exports = () => {
   })
 
   container.register({
-    redis: asFunction(require('../../utils/redis')).singleton(),
-    errors: asValue(require('../../utils/errors')),
-    logger: asValue(require('../../utils/logger'))
+    redis: asFunction(require('../utils/redis')).singleton(),
+    errors: asValue(require('../utils/errors')),
+    logger: asValue(require('../utils/logger'))
   })
 
   container.register({
-    bufferService: asFunction(require('../../services/BufferService')).singleton()
+    bufferService: asFunction(require('../services/BufferService')).singleton()
   })
 
   return container

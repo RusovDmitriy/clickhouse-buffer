@@ -1,4 +1,4 @@
-class HttpApi {
+class TcpApi {
   constructor() {
     const container = require('../container')()
     this.server = container.build(require('./server'))
@@ -9,4 +9,4 @@ class HttpApi {
   }
 }
 
-module.exports = HttpApi
+module.exports = TcpApi
